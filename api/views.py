@@ -9,8 +9,8 @@ from employees.models import Employee
 from rest_framework.views import APIView
 from rest_framework import mixins, generics , viewsets
 
-
-
+from blogs.models import Blog, Comment
+from blogs.serializers import BlogSerializer, CommentSerializer
 # Create your views here.
 
 @api_view(['GET','POST'])
@@ -164,3 +164,22 @@ class EmployeeViewset(viewsets.ViewSet):
 class EmployeeViewset(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmplpyeeSerializer
+
+
+class BlogsView(generics.ListCreateAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+class CommentView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset =Comment.objects.all()
+    serializer_class = CommentSerializer
+    
