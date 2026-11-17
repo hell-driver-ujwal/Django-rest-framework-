@@ -15,7 +15,8 @@ from blogs.serializers import BlogSerializer, CommentSerializer
 # Create your views here.
 
 from .paginations import CustomPagination
-from rest_framework.filters import SearchFilter
+
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 @api_view(['GET','POST'])
 def studentsView(request):
@@ -178,11 +179,13 @@ class EmployeeViewset(viewsets.ModelViewSet):
 class BlogsView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['blog_title','blog_body']
 
     # look for plog post which's first letter starts with this use this 
     # search_fields = ['^blog_title']
+
+    ordering_fields = ['id','blog_title'] 
 
 class CommentView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
