@@ -13,6 +13,8 @@ from blogs.models import Blog, Comment
 from blogs.serializers import BlogSerializer, CommentSerializer
 # Create your views here.
 
+from .paginations import CustomPagination
+
 @api_view(['GET','POST'])
 def studentsView(request):
     if request.method == 'GET':
@@ -126,6 +128,7 @@ class EmployeeDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 """""
 
+
 """""
 # ViewSet
 class EmployeeViewset(viewsets.ViewSet):
@@ -164,7 +167,7 @@ class EmployeeViewset(viewsets.ViewSet):
 class EmployeeViewset(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmplpyeeSerializer
-
+    pagination_class = CustomPagination
 
 class BlogsView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
@@ -177,9 +180,9 @@ class CommentView(generics.ListCreateAPIView):
 class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    
 
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset =Comment.objects.all()
     serializer_class = CommentSerializer
+
     
