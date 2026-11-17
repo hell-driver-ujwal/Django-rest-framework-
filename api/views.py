@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
 from employees.models import Employee
+from employees.filters import EmployeeFilter
 
 from rest_framework.views import APIView
 from rest_framework import mixins, generics , viewsets
@@ -14,6 +15,7 @@ from blogs.serializers import BlogSerializer, CommentSerializer
 # Create your views here.
 
 from .paginations import CustomPagination
+from rest_framework.filters import SearchFilter
 
 @api_view(['GET','POST'])
 def studentsView(request):
@@ -169,9 +171,18 @@ class EmployeeViewset(viewsets.ModelViewSet):
     serializer_class = EmplpyeeSerializer
     pagination_class = CustomPagination
 
+    # filterset_fields = ['designation'] #Use this if you have set it up in the settings.py 
+
+    filterset_class = EmployeeFilter
+
 class BlogsView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['blog_title','blog_body']
+
+    # look for plog post which's first letter starts with this use this 
+    # search_fields = ['^blog_title']
 
 class CommentView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
@@ -185,4 +196,5 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset =Comment.objects.all()
     serializer_class = CommentSerializer
 
-    
+
+
